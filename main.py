@@ -30,6 +30,7 @@ lotto_list1 = []
 lotto_list2 = []
 lotto_list3 = []
 total_amount = 0
+user_id = []
 
 # regular expression for validating email
 regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
@@ -78,10 +79,10 @@ class AllInOne:
         self.confirm_btn = Button(master, borderwidth="10", text="Verify", font="Consolas 15 bold", fg="white",
                                   bg="black", command=self.age_verification)
         self.confirm_btn.place(x=296, y=320)
-        self.clear_btn = Button(root, borderwidth="10", text="Clear", font="Consolas 15 bold", fg="white", bg="black",
+        self.clear_btn = Button(master, borderwidth="10", text="Clear", font="Consolas 15 bold", fg="white", bg="black",
                                 command=self.clear_input)
         self.clear_btn.place(x=70, y=320)
-        self.exit_btn = Button(root, borderwidth="10", text="Exit", font="Consolas 15 bold", fg="white", bg="black",
+        self.exit_btn = Button(master, borderwidth="10", text="Exit", font="Consolas 15 bold", fg="white", bg="black",
                                command=self.exit_program)
         self.exit_btn.place(x=523, y=320)
 
@@ -94,11 +95,13 @@ class AllInOne:
             id_number = rsaidnumber.parse(self.age_lbl.get())
             age = str((datetime.today() - id_number.date_of_birth) // timedelta(days=365.25))
             if int(age) >= 18:
+                # player id
+                player_id = user_id.append(uuid.uuid4())
                 # appending text
                 f = open("details.txt", "a+")
                 f.write(
                     self.full_name_lbl2.get() + " " + self.age_lbl.get() + " " + self.e_address_lbl2.get() + " " + self.physical_lbl2.get() + " " + "Logged into App at:" + str(
-                        now) + "\n")
+                        now) + "\n" + "Your Player ID Is: " + str(player_id))
                 f.close()
                 messagebox.showinfo("Success", "Let's Play")
                 playsound("./Audio/lotto-sound.mp3")
@@ -122,12 +125,6 @@ class AllInOne:
     def exit_program(self):
         return root.destroy()
 
-    def player_id(self):
-        player_id = uuid.uuid4()
-        append_id = open("details.txt", "a+")
-        append_id.write("PlayerID" + str(player_id))
-        return player_id
-
     def lotto_window(self):
         # setup
         lotto = Tk()
@@ -137,11 +134,6 @@ class AllInOne:
         lotto.config(bg='#f9db17')
         # window title
         lotto.title("The South African National Lottery")
-        # for an image
-        canvas = Canvas(root, width=500, height=200, bg='#f9db17', borderwidth=0, highlightthickness=0)
-        canvas.place(x=135, y=5)
-        img = ImageTk.PhotoImage(Image.open('./Images/ITHUBA-NATIONAL-LOTTERY.png'))
-        canvas.create_image(20, 20, anchor=NW, image=img)
 
         def play_again():
             lotto_list1.clear()
@@ -428,6 +420,7 @@ class AllInOne:
                     else:
                         lotto.withdraw()
                         self.bank_window()
+
         # labels
         num_lbl = Label(lotto, text="Set 1:", font="Consolas 12 bold", bg="#f9db17")
         num_lbl.place(x=600, y=5)
@@ -582,9 +575,9 @@ class AllInOne:
         currency.title("Currency Convertor")
         # for an image
         canvas = Canvas(root, width=500, height=200, bg='#f9db17', borderwidth=0, highlightthickness=0)
-        canvas.place(x=-15, y=5)
-        img = ImageTk.PhotoImage(Image.open('./Images/ITHUBA-NATIONAL-LOTTERY.png'))
-        canvas.create_image(20, 20, anchor=NW, image=img)
+        canvas.place(x=-15, y=0)
+        img2 = PhotoImage(file='./Images/ITHUBA-NATIONAL-LOTTERY.png')
+        canvas.create_image(20, 20, anchor=NW, image=img2)
 
         # calling API
         response = requests.get("https://v6.exchangerate-api.com/v6/48fdd8d31b8c3c5e6b84fa6f/latest/ZAR")
@@ -613,7 +606,7 @@ class AllInOne:
             display_amount.config(text=float(formula))
             messagebox.showinfo("Success", "Please Enter Your Banking Details In The Next Window")
             f = open("details.txt", "a+")
-            f.write("Your Converted Winnings Are: " + amount_label.cget("text"))
+            f.write("Your Converted Winnings Are: " + str(amount_label.cget("text")))
             f.close()
             currency.withdraw()
             self.bank_window()
@@ -651,7 +644,8 @@ class AllInOne:
         clear_btn = Button(currency, borderwidth="10", text="Clear", font="Consolas 15 bold", fg="white", bg="black",
                            command=clear_program3)
         clear_btn.place(x=5, y=400)
-        convert_btn = Button(currency, borderwidth="10", text="Convert", font="Consolas 15 bold", fg="white", bg="black",
+        convert_btn = Button(currency, borderwidth="10", text="Convert", font="Consolas 15 bold", fg="white",
+                             bg="black",
                              command=convert_currency)
         convert_btn.place(x=203, y=400)
 
@@ -668,6 +662,8 @@ class AllInOne:
         bank_wndw.title("Banking Details")  # window title
         bank_wndw.config(bg="#f9db17")
 
+        global user_id
+
         # bank function
         def bank_number():
             try:
@@ -681,15 +677,20 @@ class AllInOne:
                     # creates SMTP session
                     s = smtplib.SMTP('smtp.gmail.com', 587)
                     sender_email_id = 'jeandre.lotto@gmail.com'
-                    receiver_email_id = self.e_address_lbl2
+                    receiver_email_id = self.e_address_lbl2.get()
                     password = "lifechoices2021"
+                    p_id = user_id
                     # start TLS for security
                     s.starttls()
                     # Authentication
                     s.login(sender_email_id, password)
                     # message to be sent
                     message = "Congratulations\n"
-                    message = message + "How was your saturday"
+                    message = message + "Your Winnings Are: " + str(total_amount) + "Your Player ID is: " + str(
+                        p_id) + "Your Banking " \
+                                "Details Are: " + \
+                              acc_name_entry.get() + " " + acc_num_entry.get() + " " + branch_num_entry.get() + " " + \
+                              combo_box_banks.get()
                     # sending the mail
                     s.sendmail(sender_email_id, receiver_email_id, message)
                     # terminating the session
@@ -701,6 +702,11 @@ class AllInOne:
                                         "Please Enter A 11 Digit Bank Account Number and A 6 Digit Branch Code")
             except ValueError:
                 messagebox.showinfo("Invalid", "Please Use Digits Only")
+
+            try:
+                acc_holder = str(acc_name_entry.get())
+            except ValueError:
+                messagebox.showerror("Error", "Please Use Letters Only")
 
         # clear function
         def clear_input():
