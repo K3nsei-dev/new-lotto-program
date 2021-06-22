@@ -612,7 +612,7 @@ class AllInOne:
             formula = round(amount_entered * response["conversion_rates"][currency_2_cb.get()], 2)
             display_amount.config(text=float(formula))
             messagebox.showinfo("Success", "Please Enter Your Banking Details In The Next Window")
-            f = open("details.txt", a+)
+            f = open("details.txt", "a+")
             f.write("Your Converted Winnings Are: " + amount_label.cget("text"))
             f.close()
             currency.withdraw()
