@@ -138,7 +138,7 @@ class AllInOne:
         # window title
         lotto.title("The South African National Lottery")
         # for an image
-        canvas = Canvas(lotto, width=500, height=200, bg='#f9db17', borderwidth=0, highlightthickness=0)
+        canvas = Canvas(root, width=500, height=200, bg='#f9db17', borderwidth=0, highlightthickness=0)
         canvas.place(x=135, y=5)
         img = ImageTk.PhotoImage(Image.open('./Images/ITHUBA-NATIONAL-LOTTERY.png'))
         canvas.create_image(20, 20, anchor=NW, image=img)
@@ -147,15 +147,15 @@ class AllInOne:
             lotto_list1.clear()
             lotto_list2.clear()
             lotto_list3.clear()
-            lotto_nums1.config(text="", fg="#f9db17")
-            lotto_nums2.config(text="", fg="#f9db17")
-            lotto_nums3.config(text="", fg="#f9db17")
-            lotto_nums4.config(text="", fg="#f9db17")
-            lotto_nums5.config(text="", fg="#f9db17")
-            lotto_nums6.config(text="", fg="#f9db17")
+            lotto_nums1.config(text="", bg="#f9db17")
+            lotto_nums2.config(text="", bg="#f9db17")
+            lotto_nums3.config(text="", bg="#f9db17")
+            lotto_nums4.config(text="", bg="#f9db17")
+            lotto_nums5.config(text="", bg="#f9db17")
+            lotto_nums6.config(text="", bg="#f9db17")
             num_dis1.config(text="")
             num_dis7.config(text="")
-            num_dis13.config(text=""),
+            num_dis13.config(text="")
             num1.config(state=NORMAL)
             num2.config(state=NORMAL)
             num3.config(state=NORMAL)
@@ -320,11 +320,31 @@ class AllInOne:
                     messagebox.showinfo("Bad Luck!",
                                         str(count_1) + " " + "Numbers" + "\n" + "Your Winnings Are:" + " " + "R" + str(
                                             total_amount))
+                    f = open("details.txt", "a+")
+                    f.write(
+                        "\n" + "Number Of Correct Guesses: " + str(count_1) + "Winnings: " + "R" + str(total_amount))
+                    f.close()
+                    results = messagebox.askquestion("Choose", "Would You Like To Play Again?")
+                    if results == "yes":
+                        play_again()
+                    else:
+                        lotto.withdraw()
+                        self.bank_window()
                 elif count_1 >= 2:
                     messagebox.showinfo("Congratulations!",
                                         str(count_1) + " " + "Numbers" + "\n" + "Your Winnings Are:" + " " + "R" + str(
                                             total_amount))
-
+                    f = open("details.txt", "a+")
+                    f.write(
+                        "\n" + "Number Of Correct Guesses: " + str(count_1) + "Winnings: " + "R" + str(total_amount))
+                    f.close()
+                    result = messagebox.askquestion("Choose", "Would You Like To Convert Your Winnings?")
+                    if result == "yes":
+                        lotto.withdraw()
+                        self.currency_window()
+                    else:
+                        lotto.withdraw()
+                        self.bank_window()
             # two sets
             elif active == 1 and active2 == 1 and active3:
                 total_amount = winnings[count_1] + winnings[count_2]
@@ -333,6 +353,17 @@ class AllInOne:
                     messagebox.showinfo("Bad Luck!",
                                         str(count_2) + " " + "Numbers" + "\n" + "Your Winnings Are:" + " " + "R" + str(
                                             total_amount))
+                    f = open("details.txt", "a+")
+                    f.write("\n" + "Number Of Correct Guesses in Set 1 : " + str(count_1) + "Number Of Correct "
+                                                                                            "Guesses in Set 2:  " +
+                            str(count_2) + "Winnings: " + "R" + str(total_amount))
+                    f.close()
+                    results = messagebox.askquestion("Choose", "Would You Like To Play Again?")
+                    if results == "yes":
+                        play_again()
+                    else:
+                        lotto.withdraw()
+                        self.bank_window()
                 elif count_2 >= 2:
                     messagebox.showinfo("Congratulations!",
                                         str(count_1) + " " + "Numbers" + "\n" + "Your Winnings Are:" + " " + "R" + str(
@@ -341,7 +372,18 @@ class AllInOne:
                                         str(count_2) + " " + "Numbers" + "\n" + "Your Winnings Are:" + " " + "R" + str(
                                             winnings[count_2]))
                     messagebox.showinfo("Congrats", "Your total winnings are: " + str(total_amount))
-
+                    f = open("details.txt", "a+")
+                    f.write("\n" + "Number Of Correct Guesses in Set 1 : " + str(count_1) + "Number Of Correct "
+                                                                                            "Guesses in Set 2:  " +
+                            str(count_2) + "Winnings: " + "R" + str(total_amount))
+                    f.close()
+                    result = messagebox.askquestion("Choose", "Would You Like To Convert Your Winnings?")
+                    if result == "yes":
+                        lotto.withdraw()
+                        self.currency_window()
+                    else:
+                        lotto.withdraw()
+                        self.bank_window()
                     # 3 sets
             elif active == 1 and active2 == 1 and active3 == 1:
                 total_amount = winnings[count_1] + winnings[count_2] + winnings[count_3]
@@ -349,6 +391,18 @@ class AllInOne:
                     messagebox.showinfo("Bad Luck!",
                                         str(count_3) + " " + "Numbers" + "\n" + "Your Winnings Are:" + " " + "R" + str(
                                             total_amount))
+                    f = open("details.txt", "a+")
+                    f.write("\n" + "Number Of Correct Guesses in Set 1 : " + str(count_1) + "Number Of Correct "
+                                                                                            "Guesses in Set 2:  " +
+                            str(count_2) + "Number Of Correct Guesses in Set 3: " + str(
+                        count_3) + "Winnings: " + "R" + str(total_amount))
+                    f.close()
+                    results = messagebox.askquestion("Choose", "Would You Like To Play Again?")
+                    if results == "yes":
+                        play_again()
+                    else:
+                        lotto.withdraw()
+                        self.bank_window()
                 elif count_3 >= 2:
                     messagebox.showinfo("Congratulations!",
                                         str(count_1) + " " + "Numbers" + "\n" + "Your Winnings Are:" + " " + "R" + str(
@@ -361,145 +415,157 @@ class AllInOne:
                                             winnings[count_3]))
                     messagebox.showinfo("Congratulations!", "Your Winnings Are:" + " " + "R" + str(
                         total_amount))
-
+                    f = open("details.txt", "a+")
+                    f.write("\n" + "Number Of Correct Guesses in Set 1 : " + str(count_1) + "Number Of Correct "
+                                                                                            "Guesses in Set 2:  " +
+                            str(count_2) + "Number Of Correct Guesses in Set 3: " + str(
+                        count_3) + "Winnings: " + "R" + str(total_amount))
+                    f.close()
+                    result = messagebox.askquestion("Choose", "Would You Like To Convert Your Winnings?")
+                    if result == "yes":
+                        lotto.withdraw()
+                        self.currency_window()
+                    else:
+                        lotto.withdraw()
+                        self.bank_window()
         # labels
-        num_lbl = Label(root, text="Set 1:", font="Consolas 12 bold", bg="#f9db17")
+        num_lbl = Label(lotto, text="Set 1:", font="Consolas 12 bold", bg="#f9db17")
         num_lbl.place(x=600, y=5)
-        num_dis1 = Label(root, text="", bg="#f9db17")
+        num_dis1 = Label(lotto, text="", bg="#f9db17")
         num_dis1.place(x=570, y=50)
 
-        num_lbl2 = Label(root, text="Set 2:", font="Consolas 12 bold", bg="#f9db17")
+        num_lbl2 = Label(lotto, text="Set 2:", font="Consolas 12 bold", bg="#f9db17")
         num_lbl2.place(x=600, y=100)
-        num_dis7 = Label(root, text="", bg="#f9db17")
+        num_dis7 = Label(lotto, text="", bg="#f9db17")
         num_dis7.place(x=570, y=145)
 
-        num_lbl3 = Label(root, text="Set 3:", font="Consolas 12 bold", bg="#f9db17")
+        num_lbl3 = Label(lotto, text="Set 3:", font="Consolas 12 bold", bg="#f9db17")
         num_lbl3.place(x=600, y=195)
-        num_dis13 = Label(root, text="", bg="#f9db17")
+        num_dis13 = Label(lotto, text="", bg="#f9db17")
         num_dis13.place(x=570, y=240)
 
-        lotto_nums_lbl = Label(root, text="The Lotto Numbers Are:", font="Consolas 12 bold", bg="#f9db17")
+        lotto_nums_lbl = Label(lotto, text="The Lotto Numbers Are:", font="Consolas 12 bold", bg="#f9db17")
         lotto_nums_lbl.place(x=520, y=280)
-        lotto_nums1 = Label(root, text="", bg="#f9db17", width=4)
+        lotto_nums1 = Label(lotto, text="", bg="#f9db17", width=4)
         lotto_nums1.place(x=550, y=310)
-        lotto_nums2 = Label(root, text="", bg="#f9db17", width=4)
+        lotto_nums2 = Label(lotto, text="", bg="#f9db17", width=4)
         lotto_nums2.place(x=580, y=310)
-        lotto_nums3 = Label(root, text="", bg="#f9db17", width=4)
+        lotto_nums3 = Label(lotto, text="", bg="#f9db17", width=4)
         lotto_nums3.place(x=610, y=310)
-        lotto_nums4 = Label(root, text="", bg="#f9db17", width=4)
+        lotto_nums4 = Label(lotto, text="", bg="#f9db17", width=4)
         lotto_nums4.place(x=640, y=310)
-        lotto_nums5 = Label(root, text="", bg="#f9db17", width=4)
+        lotto_nums5 = Label(lotto, text="", bg="#f9db17", width=4)
         lotto_nums5.place(x=670, y=310)
-        lotto_nums6 = Label(root, text="", bg="#f9db17", width=4)
+        lotto_nums6 = Label(lotto, text="", bg="#f9db17", width=4)
         lotto_nums6.place(x=700, y=310)
 
         # buttons
-        num1 = Button(root, text="01", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(1))
+        num1 = Button(lotto, text="01", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(1))
         num1.place(x=5, y=5)
-        num2 = Button(root, text="02", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(2))
+        num2 = Button(lotto, text="02", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(2))
         num2.place(x=70, y=5)
-        num3 = Button(root, text="03", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(3))
+        num3 = Button(lotto, text="03", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(3))
         num3.place(x=135, y=5)
-        num4 = Button(root, text="04", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(4))
+        num4 = Button(lotto, text="04", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(4))
         num4.place(x=200, y=5)
-        num5 = Button(root, text="05", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(5))
+        num5 = Button(lotto, text="05", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(5))
         num5.place(x=265, y=5)
-        num6 = Button(root, text="06", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(6))
+        num6 = Button(lotto, text="06", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(6))
         num6.place(x=330, y=5)
-        num7 = Button(root, text="07", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(7))
+        num7 = Button(lotto, text="07", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(7))
         num7.place(x=395, y=5)
-        num8 = Button(root, text="08", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(8))
+        num8 = Button(lotto, text="08", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(8))
         num8.place(x=5, y=50)
-        num9 = Button(root, text="09", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(9))
+        num9 = Button(lotto, text="09", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(9))
         num9.place(x=70, y=50)
-        num10 = Button(root, text="10", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(10))
+        num10 = Button(lotto, text="10", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(10))
         num10.place(x=135, y=50)
-        num11 = Button(root, text="11", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(11))
+        num11 = Button(lotto, text="11", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(11))
         num11.place(x=200, y=50)
-        num12 = Button(root, text="12", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(12))
+        num12 = Button(lotto, text="12", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(12))
         num12.place(x=265, y=50)
-        num13 = Button(root, text="13", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(13))
+        num13 = Button(lotto, text="13", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(13))
         num13.place(x=330, y=50)
-        num14 = Button(root, text="14", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(14))
+        num14 = Button(lotto, text="14", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(14))
         num14.place(x=395, y=50)
-        num15 = Button(root, text="15", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(15))
+        num15 = Button(lotto, text="15", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(15))
         num15.place(x=5, y=100)
-        num16 = Button(root, text="16", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(16))
+        num16 = Button(lotto, text="16", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(16))
         num16.place(x=70, y=100)
-        num17 = Button(root, text="17", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(17))
+        num17 = Button(lotto, text="17", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(17))
         num17.place(x=135, y=100)
-        num18 = Button(root, text="18", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(18))
+        num18 = Button(lotto, text="18", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(18))
         num18.place(x=200, y=100)
-        num19 = Button(root, text="19", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(19))
+        num19 = Button(lotto, text="19", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(19))
         num19.place(x=265, y=100)
-        num20 = Button(root, text="20", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(20))
+        num20 = Button(lotto, text="20", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(20))
         num20.place(x=330, y=100)
-        num21 = Button(root, text="21", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(21))
+        num21 = Button(lotto, text="21", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(21))
         num21.place(x=395, y=100)
-        num22 = Button(root, text="22", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(22))
+        num22 = Button(lotto, text="22", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(22))
         num22.place(x=5, y=150)
-        num23 = Button(root, text="23", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(23))
+        num23 = Button(lotto, text="23", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(23))
         num23.place(x=70, y=150)
-        num24 = Button(root, text="24", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(24))
+        num24 = Button(lotto, text="24", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(24))
         num24.place(x=135, y=150)
-        num25 = Button(root, text="25", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(25))
+        num25 = Button(lotto, text="25", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(25))
         num25.place(x=200, y=150)
-        num26 = Button(root, text="26", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(26))
+        num26 = Button(lotto, text="26", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(26))
         num26.place(x=265, y=150)
-        num27 = Button(root, text="27", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(27))
+        num27 = Button(lotto, text="27", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(27))
         num27.place(x=330, y=150)
-        num28 = Button(root, text="28", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(28))
+        num28 = Button(lotto, text="28", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(28))
         num28.place(x=395, y=150)
-        num29 = Button(root, text="29", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(29))
+        num29 = Button(lotto, text="29", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(29))
         num29.place(x=5, y=200)
-        num30 = Button(root, text="30", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(30))
+        num30 = Button(lotto, text="30", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(30))
         num30.place(x=70, y=200)
-        num31 = Button(root, text="31", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(31))
+        num31 = Button(lotto, text="31", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(31))
         num31.place(x=135, y=200)
-        num32 = Button(root, text="32", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(32))
+        num32 = Button(lotto, text="32", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(32))
         num32.place(x=200, y=200)
-        num33 = Button(root, text="33", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(33))
+        num33 = Button(lotto, text="33", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(33))
         num33.place(x=265, y=200)
-        num34 = Button(root, text="34", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(34))
+        num34 = Button(lotto, text="34", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(34))
         num34.place(x=330, y=200)
-        num35 = Button(root, text="35", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(35))
+        num35 = Button(lotto, text="35", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(35))
         num35.place(x=395, y=200)
-        num36 = Button(root, text="36", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(36))
+        num36 = Button(lotto, text="36", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(36))
         num36.place(x=5, y=250)
-        num37 = Button(root, text="37", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(37))
+        num37 = Button(lotto, text="37", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(37))
         num37.place(x=70, y=250)
-        num38 = Button(root, text="38", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(38))
+        num38 = Button(lotto, text="38", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(38))
         num38.place(x=135, y=250)
-        num39 = Button(root, text="39", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(39))
+        num39 = Button(lotto, text="39", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(39))
         num39.place(x=200, y=250)
-        num40 = Button(root, text="40", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(40))
+        num40 = Button(lotto, text="40", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(40))
         num40.place(x=265, y=250)
-        num41 = Button(root, text="41", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(41))
+        num41 = Button(lotto, text="41", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(41))
         num41.place(x=330, y=250)
-        num42 = Button(root, text="42", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(42))
+        num42 = Button(lotto, text="42", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(42))
         num42.place(x=395, y=250)
-        num43 = Button(root, text="43", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(43))
+        num43 = Button(lotto, text="43", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(43))
         num43.place(x=5, y=300)
-        num44 = Button(root, text="44", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(44))
+        num44 = Button(lotto, text="44", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(44))
         num44.place(x=70, y=300)
-        num45 = Button(root, text="45", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(45))
+        num45 = Button(lotto, text="45", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(45))
         num45.place(x=135, y=300)
-        num46 = Button(root, text="46", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(46))
+        num46 = Button(lotto, text="46", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(46))
         num46.place(x=200, y=300)
-        num47 = Button(root, text="47", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(47))
+        num47 = Button(lotto, text="47", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(47))
         num47.place(x=265, y=300)
-        num48 = Button(root, text="48", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(48))
+        num48 = Button(lotto, text="48", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(48))
         num48.place(x=330, y=300)
-        num49 = Button(root, text="49", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(49))
+        num49 = Button(lotto, text="49", bg="black", fg="#f9db17", borderwidth=5, command=lambda: create_sets(49))
         num49.place(x=395, y=300)
-        gen_lotto = Button(root, text="Generate Numbers", borderwidth=10, bg="black", fg="#f9db17",
+        gen_lotto = Button(lotto, text="Generate Numbers", borderwidth=10, bg="black", fg="#f9db17",
                            font="Consolas 12 bold",
                            command=generate_nums)
         gen_lotto.place(x=280, y=400)
-        clear_btn = Button(root, text="Play Again", borderwidth=10, bg="black", fg="#f9db17", font="Consolas 12 bold",
+        clear_btn = Button(lotto, text="Clear", borderwidth=10, bg="black", fg="#f9db17", font="Consolas 12 bold",
                            command=play_again)
         clear_btn.place(x=120, y=400)
-        exit_btn = Button(root, text="Exit", borderwidth=10, bg="black", fg="#f9db17", font="Consolas 12 bold",
+        exit_btn = Button(lotto, text="Exit", borderwidth=10, bg="black", fg="#f9db17", font="Consolas 12 bold",
                           command=exit_program2)
         exit_btn.place(x=500, y=400)
 
@@ -515,7 +581,7 @@ class AllInOne:
         # window title
         currency.title("Currency Convertor")
         # for an image
-        canvas = Canvas(currency, width=500, height=200, bg='#f9db17', borderwidth=0, highlightthickness=0)
+        canvas = Canvas(root, width=500, height=200, bg='#f9db17', borderwidth=0, highlightthickness=0)
         canvas.place(x=-15, y=5)
         img = ImageTk.PhotoImage(Image.open('./Images/ITHUBA-NATIONAL-LOTTERY.png'))
         canvas.create_image(20, 20, anchor=NW, image=img)
@@ -542,48 +608,50 @@ class AllInOne:
             f = open("details.txt", "a+")
             f.write("\n" + "Converted Winnings:" + " " + str(display_amount.cget("text")))
             playsound("./Audio/counting-money.mp3")
-            amount_entered = float(amount_label.cget())
+            amount_entered = float(amount_label.cget('text'))
             formula = round(amount_entered * response["conversion_rates"][currency_2_cb.get()], 2)
             display_amount.config(text=float(formula))
             messagebox.showinfo("Success", "Please Enter Your Banking Details In The Next Window")
-            root.withdraw()
+            f = open("details.txt", a+)
+            f.write("Your Converted Winnings Are: " + amount_label.cget("text"))
+            f.close()
+            currency.withdraw()
             self.bank_window()
 
-        amount = Label(root, text="Your Amount Won:", font="Consolas 12 bold", bg="#f9db17")
+        amount = Label(currency, text="Your Amount Won:", font="Consolas 12 bold", bg="#f9db17")
         amount.place(x=5, y=180)
-        currency_1 = Label(root, text="From Currency:", font="Consolas 12 bold", bg="#f9db17")
+        currency_1 = Label(currency, text="From Currency:", font="Consolas 12 bold", bg="#f9db17")
         currency_1.place(x=5, y=230)
-        currency_2 = Label(root, text="To Currency:", font="Consolas 12 bold", bg="#f9db17")
+        currency_2 = Label(currency, text="To Currency:", font="Consolas 12 bold", bg="#f9db17")
         currency_2.place(x=5, y=280)
-        converted_amount = Label(root, text="Converted Amount:", font="Consolas 12 bold", bg="#f9db17")
+        converted_amount = Label(currency, text="Converted Amount:", font="Consolas 12 bold", bg="#f9db17")
         converted_amount.place(x=5, y=330)
-        display_amount = Label(root, text="", bg="#f9db17")
+        display_amount = Label(currency, text="", bg="#f9db17")
         display_amount.place(x=190, y=330)
-        currency_value = Label(root, text="Default Currency is set to Rands(ZAR)", bg="#f9db17",
+        currency_value = Label(currency, text="Default Currency is set to Rands(ZAR)", bg="#f9db17",
                                font="Consolas 10 bold")
         currency_value.place(x=190, y=230)
 
         # entry
-        amount_label = Label(root, text=total_amount, bg="#f9db17")
+        amount_label = Label(currency, text=total_amount, bg="#f9db17")
         amount_label.place(x=190, y=180)
 
         # combo box
-        currency_2_cb = Combobox(root)
+        currency_2_cb = Combobox(currency)
         currency_2_cb['values'] = currency_options
         currency_2_cb['state'] = 'readonly'
         currency_2_cb.set('Select Currency')
         currency_2_cb.place(x=190, y=280)
-        # currency_2_cb.config(bg="#f9db17")
         display_amount.config(text='')
 
         # buttons
-        exit_btn2 = Button(root, borderwidth="10", text="Exit", font="Consolas 15 bold", fg="white", bg="black",
+        exit_btn2 = Button(currency, borderwidth="10", text="Exit", font="Consolas 15 bold", fg="white", bg="black",
                            command=exit_program3)
         exit_btn2.place(x=400, y=400)
-        clear_btn = Button(root, borderwidth="10", text="Clear", font="Consolas 15 bold", fg="white", bg="black",
+        clear_btn = Button(currency, borderwidth="10", text="Clear", font="Consolas 15 bold", fg="white", bg="black",
                            command=clear_program3)
         clear_btn.place(x=5, y=400)
-        convert_btn = Button(root, borderwidth="10", text="Convert", font="Consolas 15 bold", fg="white", bg="black",
+        convert_btn = Button(currency, borderwidth="10", text="Convert", font="Consolas 15 bold", fg="white", bg="black",
                              command=convert_currency)
         convert_btn.place(x=203, y=400)
 
@@ -596,7 +664,7 @@ class AllInOne:
     def bank_window(self):
         bank_wndw = Toplevel()
         # setting up the window
-        bank_wndw.geometry("500x350")  # window size
+        bank_wndw.geometry("500x500")  # window size
         bank_wndw.title("Banking Details")  # window title
         bank_wndw.config(bg="#f9db17")
 
@@ -651,36 +719,36 @@ class AllInOne:
         canvas.create_image(20, 20, anchor=NW, image=img)
 
         # account labels
-        acc_name = Label(root, text="Account Holder:", font="Consolas 12 bold", bg="#f9db17")
+        acc_name = Label(bank_wndw, text="Account Holder:", font="Consolas 12 bold", bg="#f9db17")
         acc_name.place(x=50, y=180)
-        acc_num = Label(root, text="Account Number:", font="Consolas 12 bold", bg="#f9db17")
+        acc_num = Label(bank_wndw, text="Account Number:", font="Consolas 12 bold", bg="#f9db17")
         acc_num.place(x=50, y=230)
-        branch_num = Label(root, text="Branch Code:", font="Consolas 12 bold", bg="#f9db17")
+        branch_num = Label(bank_wndw, text="Branch Code:", font="Consolas 12 bold", bg="#f9db17")
         branch_num.place(x=50, y=280)
-        acc_bank = Label(root, text="Select Your Bank:", font="Consolas 12 bold", bg="#f9db17")
+        acc_bank = Label(bank_wndw, text="Select Your Bank:", font="Consolas 12 bold", bg="#f9db17")
         acc_bank.place(x=50, y=330)
 
         # account entries
-        acc_name_entry = Entry(root)
+        acc_name_entry = Entry(bank_wndw)
         acc_name_entry.place(x=250, y=180)
-        acc_num_entry = Entry(root)
+        acc_num_entry = Entry(bank_wndw)
         acc_num_entry.place(x=250, y=230)
-        branch_num_entry = Entry(root)
+        branch_num_entry = Entry(bank_wndw)
         branch_num_entry.place(x=250, y=280)
 
         # buttons
-        submit_btn = Button(root, text="Submit", font="Consolas 12 bold", bg="black", fg="#f9db17", borderwidth=10,
+        submit_btn = Button(bank_wndw, text="Submit", font="Consolas 12 bold", bg="black", fg="#f9db17", borderwidth=10,
                             command=bank_number)
         submit_btn.place(x=177, y=400)
-        clear_btn = Button(root, text="Clear", font="Consolas 12 bold", bg="black", fg="#f9db17", borderwidth=10,
+        clear_btn = Button(bank_wndw, text="Clear", font="Consolas 12 bold", bg="black", fg="#f9db17", borderwidth=10,
                            command=clear_input)
         clear_btn.place(x=320, y=400)
-        exit_btn3 = Button(root, text="Exit", font="Consolas 12 bold", bg="black", fg="#f9db17", borderwidth=10,
+        exit_btn3 = Button(bank_wndw, text="Exit", font="Consolas 12 bold", bg="black", fg="#f9db17", borderwidth=10,
                            command=exit_program)
         exit_btn3.place(x=50, y=400)
 
         # ComboBox
-        combo_box_banks = Combobox(root)
+        combo_box_banks = Combobox(bank_wndw)
         combo_box_banks["values"] = "FNB", "Absa", "Standard Bank", "Capitec"
         combo_box_banks.place(x=250, y=330)
         combo_box_banks.set("Select Your Bank")
