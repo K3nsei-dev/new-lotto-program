@@ -94,7 +94,9 @@ class AllInOne:
         try:
             id_number = rsaidnumber.parse(self.age_lbl.get())
             age = str((datetime.today() - id_number.date_of_birth) // timedelta(days=365.25))
-            if int(age) >= 18:
+            if len(self.full_name_lbl2.get()) == 0 or len(self.physical_lbl2.get()) == 0:
+                messagebox.showerror("Error", "Please Fill In Each Section")
+            elif int(age) >= 18:
                 # player id
                 player_id = user_id.append(uuid.uuid4())
                 # appending text
@@ -280,6 +282,14 @@ class AllInOne:
             # generating random numbers
             gen_nums = sample(range(1, 49), 6)
             gen_nums.sort()  # sorting generated nums
+
+            if len(lotto_list1) < 6 and active == 0 or len(lotto_list2) < 6 and active2 == 0 or len(
+                    lotto_list3) < 6 and active3 == 0:
+                messagebox.showerror("Error", "Please Select 6 Numbers")
+            elif len(lotto_list2) < 6 and active2 == 0:
+                messagebox.showinfo("Attention", "You Did Not Play The Second Set")
+            elif len(lotto_list3) < 6 and active3 == 0:
+                messagebox.showinfo("Attention", "You Did Not Play The Third Set")
 
             # display in empty label
             lotto_nums1.configure(text=gen_nums[0], bg="white")
